@@ -2,19 +2,29 @@ name: neuralplexer_dev
 channels:
   - nvidia
   - pytorch
-  - pytorch3d
-  - pyg
   - bioconda
+  - pytorch3d
+  - lmmentel
+  - rusty1s
   - conda-forge
 dependencies:
-  - python >=3.8
+  - python==3.10.*
+    #- fairscale=0.4.13=cuda112py310hd4d1af5_0   -> Environment took forever to solve whenever I added this requirement
   - pip
-  - pytorch >=1.10.0
-  - pytorch-cuda
+  - setuptools==69.5.1
+  - pytorch::pytorch==1.13.1
+  - pytorch::torchaudio
+  - pytorch::torchvision
+  - pytorch::pytorch-cuda==11.6
+  - nvidia::cudatoolkit==11.6.0
+  - rusty1s::pytorch-scatter
+  - mkl<=2024.0
+    # Pinning MKL because of this issue: https://github.com/pytorch/pytorch/issues/123097
+  - pytorch3d::pytorch3d
   - biopython
   - prody
   - deprecated
-  - hydra-core=1.1.1
+  - hydra-core
   - dm-tree
   - ml-collections
   - networkx
@@ -26,16 +36,11 @@ dependencies:
   - numpy
   - openbabel
   - pandas
-  - pytorch3d
   - rdkit
   - rmsd
   - tmalign
   - tensorboard
-  - jupyter
   - tqdm
   - python-lmdb
-  - vim
   - wandb
-  - pip:
-    - -r requirements.txt
-
+  - mendeleev==0.16.2

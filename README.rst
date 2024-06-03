@@ -2,7 +2,7 @@
 NeuralPLexer
 ============
 
-Official implementation of NeuralPLexer, a deep generative model to jointly predict protein-ligand complex 3D structures and beyond.
+Fork of NeuralPLexer, specifically made to build on Princeton's Della GPU cluster.
 
 .. image:: docs/demo2_122023.gif
   :align: center

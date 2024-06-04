@@ -44,11 +44,12 @@ This final pip install will attempt to use the conda version of the nvcc compile
     module load cudatoolkit/11.6
     python -m pip install openfold@git+https://github.com/aqlaboratory/openfold.git@103d0370ad9ce07579c20fa9c889a632f9b16618
 
-Next, use the Makefile's install command to install NeuralPLexer from inside the source directory (that cleans build and test directories, then runs pip install -e .)
+Next, use the Makefile's clean command to remove any old build or test files, then use conda's python to pip install NeuralPLexer.
 
 .. code-block:: bash
 
-    make install
+    make clean
+    python -m pip install -e .
 
 Model inference for new protein-ligand pairs
 --------------------------------------------

@@ -2,7 +2,7 @@
 NeuralPLexer
 ============
 
-Fork of NeuralPLexer, specifically made to build on Princeton's Della GPU cluster.
+Fork of NeuralPLexer, specifically modified to build on Princeton's Della GPU cluster.
 
 .. image:: docs/demo2_122023.gif
   :align: center
@@ -20,14 +20,34 @@ Installation
 
 A GPU machine with CUDA>=10.2 support is required to run the model. 
 
-We recommend setting up the `libmambda solver for conda <https://www.anaconda.com/blog/a-faster-conda-for-a-growing-community>`_ before installation.
-For a Linux environment, run the following commands to install the package:
+The following worked for me in June 2024 on Princeton's DELLA GPU login node, using the built-in conda provided by the Della environment.
+
+.. code-block:: bash
+    
+    conda env create -f environment_dev.yaml --force
+
+After conda has finished solving all the dependencies and installing, we can finish out the required packages with pip (some of these are unavailable through conda, some wouldn't install properly through conda, and fairscale made conda take forever to solve)
 
 .. code-block:: bash
 
-    make environment
-    make install
+    conda activate neuralplexer_dev
+    python -m pip install pytorch-lightning==1.*
+    python -m pip install git+https://git@github.com/zrqiao/power_spherical.git@290b1630c5f84e3bb0d61711046edcf6e47200d4
+    python -m pip install git+https://github.com/NVIDIA/dllogger.git@0540a43971f4a8a16693a9de9de73c1072020769
+    python -m pip install  git+https://github.com/facebookresearch/esm@57da016e5d740a9ac5bcf62c3689a42e88584bc
 
+This final pip install will attempt to use the conda version of the nvcc compiler (no-no), so we need to load the Della cluster's cuda module first. That way, the 'native' nvcc compiler from the module will run when the pip install attempts to compile code:
+
+.. code-block:: bash
+
+    module load cudatoolkit/11.6
+    python -m pip install openfold@git+https://github.com/aqlaboratory/openfold.git@103d0370ad9ce07579c20fa9c889a632f9b16618
+
+Next, use the Makefile's install command to install NeuralPLexer from inside the source directory (that cleans build and test directories, then runs pip install -e .)
+
+.. code-block:: bash
+
+    make install
 
 Model inference for new protein-ligand pairs
 --------------------------------------------

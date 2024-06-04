@@ -83,8 +83,6 @@ dist: clean ## builds source and wheel package
 	python setup.py bdist_wheel
 	ls -l dist
 
-environment:
-	conda env create -f environment_dev.yaml --force
 
 install: clean ## install the package to the active Python's site-packages
 	pip install -e .

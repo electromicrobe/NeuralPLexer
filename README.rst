@@ -35,6 +35,7 @@ After conda has finished solving all the dependencies and installing, we can fin
     python -m pip install git+https://git@github.com/zrqiao/power_spherical.git@290b1630c5f84e3bb0d61711046edcf6e47200d4
     python -m pip install git+https://github.com/NVIDIA/dllogger.git@0540a43971f4a8a16693a9de9de73c1072020769
     python -m pip install  git+https://github.com/facebookresearch/esm@57da016e5d740a9ac5bcf62c3689a42e88584bc
+    python -m pip install fairscale
 
 This final pip install will attempt to use the conda version of the nvcc compiler (no-no), so we need to load the Della cluster's cuda module first. That way, the 'native' nvcc compiler from the module will run when the pip install attempts to compile code:
 

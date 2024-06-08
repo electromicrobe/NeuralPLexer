@@ -97,9 +97,9 @@ def create_full_pdb_with_zero_coordinates(sequence: str, filename) -> None:
             chain_id = chr(ord(chain_id) + 1)
 
 
-def single_sample_sampling(args, model):
+def single_sample_sampling(args, model, ligand_paths):
     sample, mol = featurize_protein_and_ligands(
-        args.input_ligand,
+        ligand_paths,
         args.input_receptor,
         n_lig_patches=model.config.mol_encoder.n_patches,
         template_path=args.input_template,
@@ -662,7 +662,11 @@ def main():
         else:
             ligand_paths = None
         
-        single_sample_sampling(args, model)
+        single_sample_sampling(
+            args,
+            model,
+            ligand_paths=ligand_paths,
+        )
     elif args.task == "batched_structure_sampling":
         # Handle no ligand input
         if args.input_ligand is not None:

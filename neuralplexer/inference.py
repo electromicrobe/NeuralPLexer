@@ -656,6 +656,12 @@ def main():
     if args.start_time != "auto":
         args.start_time = float(args.start_time)
     if args.task == "single_sample_trajectory":
+        # Handle no ligand input
+        if args.input_ligand is not None:
+            ligand_paths = list(args.input_ligand.split("|"))
+        else:
+            ligand_paths = None
+        
         single_sample_sampling(args, model)
     elif args.task == "batched_structure_sampling":
         # Handle no ligand input

@@ -661,6 +661,12 @@ def main():
             ligand_paths = list(args.input_ligand.split("|"))
         else:
             ligand_paths = None
+        if not args.input_receptor.endswith(".pdb"):
+            warnings.warn("Assuming the provided receptor input is a protein sequence")
+            create_full_pdb_with_zero_coordinates(
+                args.input_receptor, args.out_path + "/input.pdb"
+            )
+            args.input_receptor = args.out_path + "/input.pdb"
         
         single_sample_sampling(
             args,

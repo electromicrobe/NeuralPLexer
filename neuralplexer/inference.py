@@ -626,6 +626,7 @@ def main():
     parser.add_argument("--separate-pdb", action="store_true")
     parser.add_argument("--rank-outputs-by-confidence", action="store_true")
     parser.add_argument("--csv-path", type=str)
+    parser.add_argument("--n_protein_patches", required=False, type=int)
     args = parser.parse_args()
     config = get_base_config()
 
@@ -644,10 +645,21 @@ def main():
         else:
             config.task.use_template = args.use_template
         config.task.detect_covalent = args.detect_covalent
+    
+        # Will this break if model checkpoint is not provided ???
+        if args.n_protein_patches is not None:
+            # Protein config or protein encoder??
+            config.protein_config.n_patches = args.n_protein_patches
+            # raise NotImplementedError()
+    else:
+        raise NotImplementedError()
+        # if args.n_protein_patches is not None:
+        #     config.protein_encoder.n_patches = args.n_protein_patches
 
     model = NeuralPlexer.load_from_checkpoint(
         config=config, checkpoint_path=args.model_checkpoint, strict=False
     )
+    print(model.config.protein_config.n_patches)
     model.eval()
     if args.cuda:
         torch.set_default_tensor_type(torch.cuda.FloatTensor)

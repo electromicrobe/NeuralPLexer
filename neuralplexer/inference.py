@@ -654,6 +654,9 @@ def main():
             # print(dir(config.protein_config))
             # Protein config or protein encoder??
             config.protein_encoder.n_patches = args.n_protein_patches
+            print("New protein n_patches: {}".format(
+                config.protein_encoder.n_patches
+            ))
             # raise NotImplementedError()
     else:
         raise NotImplementedError()

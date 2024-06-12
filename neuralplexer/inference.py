@@ -648,9 +648,6 @@ def main():
     
         # Will this break if model checkpoint is not provided ???
         if args.n_protein_patches is not None:
-            
-            # print(dir(config))
-            # print(dir(config.protein_encoder))
             print("Original protein n_patches: {}".format(
                 config.protein_encoder.n_patches
             ))

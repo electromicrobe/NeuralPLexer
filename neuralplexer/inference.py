@@ -648,18 +648,17 @@ def main():
     
         # Will this break if model checkpoint is not provided ???
         if args.n_protein_patches is not None:
+            print(dir(config.protein_config))
             # Protein config or protein encoder??
             config.protein_config.n_patches = args.n_protein_patches
             # raise NotImplementedError()
     else:
         raise NotImplementedError()
-        # if args.n_protein_patches is not None:
-        #     config.protein_encoder.n_patches = args.n_protein_patches
 
     model = NeuralPlexer.load_from_checkpoint(
         config=config, checkpoint_path=args.model_checkpoint, strict=False
     )
-    print(model.config.protein_config.n_patches)
+
     model.eval()
     if args.cuda:
         torch.set_default_tensor_type(torch.cuda.FloatTensor)

@@ -115,6 +115,7 @@ def single_sample_sampling(args, model, ligand_paths):
         return_all_states=True,
         start_time=args.start_time,
         exact_prior=args.exact_prior,
+        langevin_annealing_max_inverse_temp=args.langevin_annealing_max_inverse_temp,
     )
     struct_res_all, lig_res_all = [], []
     for t, output_struct in enumerate(all_frames):
@@ -627,6 +628,7 @@ def main():
     parser.add_argument("--rank-outputs-by-confidence", action="store_true")
     parser.add_argument("--csv-path", type=str)
     parser.add_argument("--n_protein_patches", required=False, type=int)
+    parser.add_argument("--langevin_annealing_max_inverse_temp", required=False, type=float)
     args = parser.parse_args()
     config = get_base_config()
 

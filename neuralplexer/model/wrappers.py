@@ -2924,6 +2924,7 @@ class NeuralPlexer(pl.LightningModule):
         sampler_step_fn,
         umeyama_correction=True,
         use_template=False,
+        langevin_annealing_max_inverse_temp=None,
     ):
         # Dimension-less internal coordinates and decay rates
         x_int_t, lambda_int = latent_converter.to_latent(batch)
@@ -2998,9 +2999,14 @@ class NeuralPlexer(pl.LightningModule):
             score_converter._last_pred_ca_trace = _last_pred_ca_trace
 
         x_int_hat_t, _ = score_converter.to_latent(batch)
-        x_int_tm = sampler_step_fn(
-            x_int_t, x_int_hat_t, alpha_t, alpha_tm, beta_t, t=t / T, tm=(t - 1) / T
-        )
+        if langevin_annealing_max_inverse_temp is not None:
+            x_int_tm = sampler_step_fn(
+                x_int_t, x_int_hat_t, alpha_t, alpha_tm, beta_t, t=t / T, tm=(t - 1) / T, max_inverse_temp=langevin_annealing_max_inverse_temp
+            )
+        else:
+            x_int_tm = sampler_step_fn(
+                x_int_t, x_int_hat_t, alpha_t, alpha_tm, beta_t, t=t / T, tm=(t - 1) / T,
+            )
         return latent_converter.assign_to_batch(batch, x_int_tm)
 
     def sample_pl_complex_structures(
@@ -3015,6 +3021,7 @@ class NeuralPlexer(pl.LightningModule):
         exact_prior=False,
         align_to_ground_truth=True,
         use_template=None,
+        langevin_annealing_max_inverse_temp=None,
         **kwargs,
     ):
         """
@@ -3169,6 +3176,7 @@ class NeuralPlexer(pl.LightningModule):
                     sampling_step_fn,
                     umeyama_correction=umeyama_correction,
                     use_template=use_template,
+                    langevin_annealing_max_inverse_temp=langevin_annealing_max_inverse_temp,
                 )
                 if return_all_states:
                     # all_frames.append(

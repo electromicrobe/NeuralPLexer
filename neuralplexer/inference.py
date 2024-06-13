@@ -632,6 +632,13 @@ def main():
     args = parser.parse_args()
     config = get_base_config()
 
+    if args.langevin_annealing_max_inverse_temp is not None:
+        if args.task != "single_sample_trajectory" or args.sampler != "langevin_simulated_annealing":
+            raise ValueError(
+                "Manual setting of langevin_annealing_max_inverse_temp is only supported with single_sample_trajectory " +
+                "and langevin_simulated_annealing options selected"
+            )
+
     if args.model_checkpoint is not None:
         # No need to specify this when loading the entire model
         model = NeuralPlexer.load_from_checkpoint(

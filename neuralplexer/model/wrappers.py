@@ -3149,6 +3149,9 @@ class NeuralPlexer(pl.LightningModule):
             )
         else:
             raise NotImplementedError
+        
+        if langevin_annealing_max_inverse_temp is not None:
+            print("MANUALLY SETTING langevin_annealing_max_inverse_temp")
 
         with torch.no_grad():
             batch = self._forward_diffuse_plcomplex_latinp(
